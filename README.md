@@ -1,5 +1,7 @@
 CCM3 Viewer
 ===========
+[![Build Status](https://travis-ci.org/puzzle/ccm3.svg?branch=master)](https://travis-ci.org/puzzle/ccm3)
+
 Simple Java EE based webapplication which exposes data of a given
 database as REST API. The REST API will be accessed by a HTML5 / jQuery
 based client.
