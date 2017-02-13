@@ -14,8 +14,8 @@ function loadRepoGroups() {
 
             }
         }).error(function () {
-            //console.log("error");
-        });
+        //console.log("error");
+    });
 }
 
 function searchByRepo(event) {
@@ -23,8 +23,7 @@ function searchByRepo(event) {
     var searchVal = element.val();
     if (searchVal.length > 3) {
         $.ajax(
-
-            'api/v1/repository-groups/repository-name/'+ searchVal,
+            'api/v1/repository-groups/repository-name/' + searchVal,
             {
                 type: 'GET',
                 success: function (data) {
@@ -33,15 +32,15 @@ function searchByRepo(event) {
                     $.each(data,
                         function (i, item) {
                             $("#repositoryGroups").append(
-                                '<li data-element-id="' + item.id + '"><a href="#">' + item.name +'<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
+                                '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
                         });
 
                 }
             }).error(function () {
-                //console.log("error");
-            });
+            //console.log("error");
+        });
     }
-    if(element.val().length == 0){
+    if (element.val().length == 0) {
         loadRepoGroups();
     }
 }
@@ -50,6 +49,7 @@ function loadRepoGroup(event) {
     var element = $(event.currentTarget).parent();
     var id = element.data("element-id");
     //element.parent.find("li").removeClass("active");
+
     $.ajax(
         'api/v1/repository-groups/' + id,
         {
@@ -61,44 +61,61 @@ function loadRepoGroup(event) {
                         element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
                     });
                 element.find("ul").toggleClass("in");
-
-                element.addClass("active");
             }
         }).error(function () {
-            //console.log("error");
-        });
+        //console.log("error");
+    });
 }
-function loadRepo(event) {
 
+function loadRepo(event) {
     var element = $(event.currentTarget).parent();
     var id = element.data("element-id");
+    $(event.currentTarget).addClass("active");
     $.ajax(
         'api/v1/repositories/' + id,
         {
             type: 'GET',
             success: function (data) {
-                var source   = $("#repo-template").html();
+                var source = $("#repo-template").html();
                 var template = Handlebars.compile(source);
                 var context = {data: data};
-                var html    = template(context);
+                var html = template(context);
+                var branchId = $("#branch").val();
+                if (branchId) {
+                    var url = 'api/v1/statuses?branchId=' + branchId;
+                } else {
+                    var url = 'api/v1/statuses';
+                }
+
                 $("#repoDetails").html(html);
-                $('#resulttable').DataTable( {
+                $("#resulttable").DataTable({
                     "processing": true,
                     "serverSide": true,
-                    "ajax": "api/v1/logs",
-                    // "ajax": "api/v1/repositories/1/branch/{selected-branch}",
+                    "ajax": url,
+                    "searching": false,
+                    "order": [[5, 'desc']],
                     "columns": [
-                        { "data": "action" },
-                        { "data": "stage" },
-                        { "data": "repositoryName" },
-                        { "data": "repositoryGroupName" },
-                        { "data": "branch" },
-                        { "data": "version" }
+                        {"data": "stage"},
+                        {"data": "version"},
+                        {"data": "userId"},
+                        {"data": "status"},
+                        {"data": "auftragNr"},
+                        {"data": "executed"}
                     ]
                 });
                 $('.datepicker').datetimepicker();
             }
         }).error(function () {
-            //console.log("error");
-        });
+        //console.log("error");
+    });
+}
+
+function loadBranch(event) {
+    var branchId = $("#branch").val();
+    if (branchId) {
+        var url = 'api/v1/statuses?branchId=' + branchId;
+    } else {
+        var url = 'api/v1/statuses';
+    }
+    $('#resulttable').DataTable().ajax.url(url).load();
 }

@@ -1,7 +1,9 @@
 TODOs
 =====
-* Describe application structure
+* Implement search of Status records
+* Prettify log.html search input fields
 * Model fields Action and Stage as Dropdowns which can be overwritten
+* Describe application structure
 * Extract default values to a single class (e.g. default pagination size)
 * Authentication against LDAP (ui-user, rest-user)
 * Optimize imports an plugins in pom.xml, reduce war-size
@@ -11,4 +13,3 @@ Improvements
 ============
 * Introduce DTOs instead of serializing the entities directly to JSON
 * Use bookmarkable URLs
-

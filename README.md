@@ -22,6 +22,8 @@ based client.
 * Java Packages are structured according to the Entity-Control-Boundary Pattern
 * Userinterface is decoupled by a REST interface. The data is serialized as JSON.
 * Entities will be serialized directly as JSON
+* Transaction demarcation is made directly on the boundaries
+* Only stateless EJBs are used
 * Filtering, pagination and sorting is done on the server-side
 * Packaging as a single WAR-file including Backend, Client and Swagger
 
@@ -34,6 +36,26 @@ $ mvn clean install
 
 ## Application Server configuration
 
+### Security Domain
+The application expects a security domain with the name `ccm3` configured in JBoss application server.
+
+JBoss Security-Domain configuration snippet:
+```xml
+<security-domain name="ccm3" required="true">
+    <authentication>
+        <login-module code="org.jboss.security.auth.spi.UsersRolesLoginModule" flag="required">
+            <module-option name="usersProperties" value="${jboss.server.config.dir}/application-users.properties"/>
+            <module-option name="rolesProperties" value="${jboss.server.config.dir}/application-roles.properties"/>
+        </login-module>
+    </authentication>
+</security-domain>
+```
+
+Add a local application user by jboss-cli:
+```
+${JBOSS_HOME}/bin/add-user.sh -a -u <username> -p <password> -g ccm3-user
+```
+
 ### Datasource
 To start the application a datasource needs to be configured in the
 application server. This can either be a in memory or a persistent
@@ -45,7 +67,7 @@ Deploy the JDBC Driver to the application Server as a managed deployment:
 ${JBOSS_HOME}/bin/jboss-cli.sh -c --command="deploy mysql-connector-java-5.1.40-bin.jar"
 ```
 
-JBoss Datasource Configuration snippet:
+JBoss Datasource configuration snippet:
 ```xml
 <datasource jta="true" jndi-name="java:jboss/datasources/ccm3" pool-name="ccm3" enabled="true" use-ccm="true" statistics-enabled="false">
     <connection-url>jdbc:mysql://localhost:3306/ccm3</connection-url>

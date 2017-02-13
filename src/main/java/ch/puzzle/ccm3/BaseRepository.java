@@ -1,9 +1,10 @@
 package ch.puzzle.ccm3;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.*;
 import java.util.*;
+
+import static ch.puzzle.ccm3.SortCriteria.SortDirection.ASC;
 
 public abstract class BaseRepository<T> {
     private final Class<T> entityType;
@@ -118,5 +119,39 @@ public abstract class BaseRepository<T> {
 
     protected TypedQuery<T> createTypedQuery(CriteriaQuery<T> query) {
         return entityManager.createQuery(query);
+    }
+
+    protected String createSearchString(String input) {
+        return input.toLowerCase().replaceAll("\\*", "%") + "%";
+    }
+
+    protected List<Predicate> buildSearchPredicates(Map<String, String> searchParameters, CriteriaBuilder builder, Root<T> from) {
+        List<Predicate> predicates = new ArrayList<>();
+        if (searchParameters != null) {
+            for (Map.Entry<String, String> searchParam : searchParameters.entrySet()) {
+                if (searchParam.getKey() == null || searchParam.getValue() == null) {
+                    continue;
+                }
+                try {
+                    Path<String> attribute = from.get(searchParam.getKey());
+                    Predicate predicate = builder.like(builder.lower(attribute), createSearchString(searchParam.getValue()));
+                    predicates.add(predicate);
+                } catch (IllegalArgumentException e) {
+                    // ignore if field was not found on entity
+                }
+            }
+        }
+        return predicates;
+    }
+
+    protected Order getOrderFor(Root<T> from, CriteriaBuilder builder, SortCriteria sort) {
+        try {
+            return ASC.equals(sort.getDirection()) ?
+                    builder.asc(from.get(sort.getField())) :
+                    builder.desc(from.get(sort.getField()));
+        } catch (IllegalArgumentException e) {
+            // ignore if field was not found on entity
+            return null;
+        }
     }
 }

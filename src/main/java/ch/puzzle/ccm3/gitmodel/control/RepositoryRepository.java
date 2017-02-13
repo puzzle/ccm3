@@ -3,7 +3,6 @@ package ch.puzzle.ccm3.gitmodel.control;
 import ch.puzzle.ccm3.BaseRepository;
 import ch.puzzle.ccm3.SortCriteria;
 import ch.puzzle.ccm3.gitmodel.entity.Repository;
-import ch.puzzle.ccm3.log.entity.Log;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityGraph;
@@ -15,6 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
 
+import static ch.puzzle.ccm3.DefaultValues.PAGE_SIZE;
 import static ch.puzzle.ccm3.SortCriteria.SortDirection.ASC;
 
 @ApplicationScoped
@@ -42,7 +42,7 @@ public class RepositoryRepository extends BaseRepository<Repository> {
 
     public List<Repository> search(Integer offset, Integer limit, SortCriteria sort, Map<String, String> searchParameters) {
         offset = offset == null ? 0 : offset;
-        limit = limit == null ? 20 : limit;
+        limit = limit == null ? PAGE_SIZE : limit;
 
         CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<Repository> query = createCriteriaQuery();
@@ -68,7 +68,7 @@ public class RepositoryRepository extends BaseRepository<Repository> {
         return resultList(createTypedQuery(query).setFirstResult(offset).setMaxResults(limit));
     }
 
-    private String createSearchString(String input) {
+    protected String createSearchString(String input) {
         if(input != null){
             return input.replaceAll("\\*", "%") + "%";
         }

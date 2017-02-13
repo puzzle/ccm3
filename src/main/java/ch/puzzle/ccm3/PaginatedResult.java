@@ -15,8 +15,8 @@ public class PaginatedResult<T> {
     /**
      * Total results found.
      */
-    private int recordsTotal;
-    private int recordsFiltered;
+    private long recordsTotal;
+    private long recordsFiltered;
     /**
      * Offset used for querying the data.
      */
@@ -30,7 +30,7 @@ public class PaginatedResult<T> {
         this(Collections.emptyList(), resultSize, offset, pageSize);
     }
 
-    public PaginatedResult(List<T> data, int recordsTotal, int offset, int pageSize) {
+    public PaginatedResult(List<T> data, long recordsTotal, int offset, int pageSize) {
         this.data = Collections.unmodifiableList(data);
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsTotal;
@@ -38,16 +38,12 @@ public class PaginatedResult<T> {
         this.pageSize = pageSize;
     }
 
-    public PaginatedResult(List<T> data, int recordsTotal, int offset, int pageSize, int draw) {
+    public PaginatedResult(List<T> data, long recordsTotal, int offset, int pageSize, int draw) {
         this.data = Collections.unmodifiableList(data);
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsTotal;
         this.offset = offset;
         this.pageSize = pageSize;
-        this.draw = draw;
-    }
-
-    public void setDraw(int draw) {
         this.draw = draw;
     }
 
@@ -55,15 +51,19 @@ public class PaginatedResult<T> {
         return draw;
     }
 
+    public void setDraw(int draw) {
+        this.draw = draw;
+    }
+
     public List<T> getData() {
         return data;
     }
 
-    public int getRecordsFiltered() {
+    public long getRecordsFiltered() {
         return recordsFiltered;
     }
 
-    public int getRecordsTotal() {
+    public long getRecordsTotal() {
         return recordsTotal;
     }
 

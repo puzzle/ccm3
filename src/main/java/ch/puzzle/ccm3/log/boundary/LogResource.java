@@ -10,22 +10,26 @@ import io.swagger.annotations.ApiOperation;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static ch.puzzle.ccm3.DefaultValues.PAGE_SIZE;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 @Stateless
-@Api(tags = "ccm3-viewer")
 @Path("/logs")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Api(tags = "ccm3-viewer")
+@Consumes(APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 public class LogResource {
+
     @Inject
     private LogRepository repository;
     private Map<Integer, String> columnMapping = new HashMap<>();
+
     public LogResource() {
         columnMapping.put(0, "action");
         columnMapping.put(1, "stage");
@@ -69,12 +73,8 @@ public class LogResource {
         List<Log> result = repository.search(offset, pageSize, new SortCriteria(columnMapping.get(sortColumn), sortDirection), lowerDate, upperDate, searchParameters);
         long totalCount = repository.countSearchResults(lowerDate, upperDate, searchParameters);
 
-        PaginatedResult<Log> paginatedResult = new PaginatedResult<>(
-                result,
-                (int) totalCount,
-                offset != null ? offset : 0,
-                pageSize != null ? pageSize : 25,
-                draw != null ? draw : 1);
+        PaginatedResult<Log> paginatedResult = new PaginatedResult<>(result, totalCount, offset != null ? offset : 0,
+                pageSize != null ? pageSize : PAGE_SIZE, draw != null ? draw : 1);
 
         return Response.ok(paginatedResult).build();
     }

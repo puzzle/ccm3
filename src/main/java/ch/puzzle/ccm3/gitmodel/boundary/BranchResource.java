@@ -10,14 +10,15 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api(tags = "ccm3-viewer")
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 @Stateless
 @Path("/branches")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Api(tags = "ccm3-viewer")
+@Consumes(APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 public class BranchResource {
 
     private final Logger logger = LoggerFactory.getLogger(BranchResource.class);
@@ -36,5 +37,4 @@ public class BranchResource {
         }
         return branch;
     }
-
 }

@@ -21,7 +21,7 @@ public class RepositoryGroupRepository extends BaseRepository<RepositoryGroup> {
         return repositoryGroups;
     }
 
-    public RepositoryGroup findByIdWithRepositories(Long id)  {
+    public RepositoryGroup findByIdWithRepositories(Long id) {
         EntityGraph<RepositoryGroup> graph = getGraph();
         graph.addSubgraph("repositories");
         return findWithGraph(graph, id);
@@ -33,10 +33,5 @@ public class RepositoryGroupRepository extends BaseRepository<RepositoryGroup> {
 
         List<RepositoryGroup> repositoryGroups = query.getResultList();
         return repositoryGroups;
-    }
-
-    private String createSearchString(String input) {
-        input  = input != null ? input : "";
-        return input.toLowerCase().replaceAll("\\*", "%") + "%";
     }
 }
