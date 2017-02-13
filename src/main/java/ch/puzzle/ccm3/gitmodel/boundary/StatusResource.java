@@ -3,7 +3,9 @@ package ch.puzzle.ccm3.gitmodel.boundary;
 import ch.puzzle.ccm3.PaginatedResult;
 import ch.puzzle.ccm3.SortCriteria;
 import ch.puzzle.ccm3.gitmodel.control.StatusRepository;
+import ch.puzzle.ccm3.gitmodel.entity.JsonViews.FromStatus;
 import ch.puzzle.ccm3.gitmodel.entity.Status;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -31,15 +33,17 @@ public class StatusResource {
     private Map<Integer, String> columnMapping = new HashMap<>();
 
     public StatusResource() {
-        columnMapping.put(0, "stage");
-        columnMapping.put(1, "version");
-        columnMapping.put(2, "userId");
-        columnMapping.put(3, "status");
-        columnMapping.put(4, "auftragNr");
-        columnMapping.put(5, "executed");
+        columnMapping.put(0, "branch");
+        columnMapping.put(1, "stage");
+        columnMapping.put(2, "version");
+        columnMapping.put(3, "userId");
+        columnMapping.put(4, "status");
+        columnMapping.put(5, "auftragNr");
+        columnMapping.put(6, "executed");
     }
 
     @GET
+    @JsonView(FromStatus.class)
     @ApiOperation("Find Statuses by Repository or Branch. Supports pagination and ordering")
     public Response getStatusEntries(@QueryParam("branchId") Long branchId,
                                      @QueryParam("repositoryId") Long repoositoryId,
@@ -49,8 +53,9 @@ public class StatusResource {
                                      @QueryParam("order[0][dir]") String sortDirection,
                                      @QueryParam("draw") Integer draw) {
 
+        // TODO: implement search parameters
         List<Status> result = repository.search(repoositoryId, branchId, offset, pageSize, new SortCriteria(columnMapping.get(sortColumn), sortDirection), null);
-        Long totalCount = repository.countSearchResults(null);
+        Long totalCount = repository.countSearchResults(repoositoryId, branchId, null);
 
         PaginatedResult<Status> paginatedResult = new PaginatedResult<>(result, totalCount, offset != null ? offset : 0,
                 pageSize != null ? pageSize : PAGE_SIZE, draw != null ? draw : 1);

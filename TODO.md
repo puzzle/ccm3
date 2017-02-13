@@ -1,15 +1,17 @@
 TODOs
 =====
-* Implement search of Status records
-* Prettify log.html search input fields
+* Highlight selected Repository in navigation tree
+* Prettify log.html search input fields (make 2 or 3 columns for input fields)
+* Remove horizontal scrollbar on bottom of tables
+* Make date range selection filter work
 * Model fields Action and Stage as Dropdowns which can be overwritten
-* Describe application structure
-* Extract default values to a single class (e.g. default pagination size)
-* Authentication against LDAP (ui-user, rest-user)
 * Optimize imports an plugins in pom.xml, reduce war-size
-* Load client-side libs from server
+* Pack client-side libs with application
+* Describe application structure
+* Format Timestamps in user interface
 
 Improvements
 ============
 * Introduce DTOs instead of serializing the entities directly to JSON
 * Use bookmarkable URLs
+* Make separate REST Resources for Datatables because of ugly multidimensional params

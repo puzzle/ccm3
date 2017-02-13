@@ -1,7 +1,9 @@
 package ch.puzzle.ccm3.gitmodel.entity;
 
+import ch.puzzle.ccm3.gitmodel.entity.JsonViews.FromBranch;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -47,9 +49,9 @@ public class Branch implements Serializable{
     @Size(max = 24)
     private String status;
 
-    @JsonManagedReference("Branch-Repository")
     @OneToMany(mappedBy = "branch")
     @OrderBy("executed desc")
+    @JsonView(FromBranch.class)
     private List<Status> statuses;
 
     public Long getId() {

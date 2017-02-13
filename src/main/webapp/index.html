@@ -95,7 +95,7 @@
   <script id="repo-template" type="text/x-handlebars-template">
     <ul class="breadcrumb page-header">
       <li>{{data.repositoryGroup.name}}</li>
-      <li>{{data.name}}</li>
+      <li data-repository-id="{{data.id}}">{{data.name}}</li>
     </ul>
     <div class="row bottom-margin">
       <div class="col-sm-3">
@@ -115,6 +115,7 @@
       <table class="table table-striped" id="resulttable">
         <thead>
         <tr>
+          <th>Branch</th>
           <th>Stage</th>
           <th>Version</th>
           <th>User</th>

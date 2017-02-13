@@ -1,6 +1,7 @@
 package ch.puzzle.ccm3.gitmodel.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import ch.puzzle.ccm3.gitmodel.entity.JsonViews.FromStatus;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Status implements Serializable {
 
     @NotNull
     @ManyToOne
-    @JsonBackReference("Status-Branch")
+    @JsonView(FromStatus.class)
     private Branch branch;
 
     @NotNull

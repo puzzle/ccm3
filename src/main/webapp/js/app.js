@@ -69,10 +69,10 @@ function loadRepoGroup(event) {
 
 function loadRepo(event) {
     var element = $(event.currentTarget).parent();
-    var id = element.data("element-id");
+    var repositoryId = element.data("element-id");
     $(event.currentTarget).addClass("active");
     $.ajax(
-        'api/v1/repositories/' + id,
+        'api/v1/repositories/' + repositoryId,
         {
             type: 'GET',
             success: function (data) {
@@ -82,7 +82,7 @@ function loadRepo(event) {
                 var html = template(context);
                 var branchId = $("#branch").val();
                 if (branchId) {
-                    var url = 'api/v1/statuses?branchId=' + branchId;
+                    var url = 'api/v1/statuses?repositoryId='+ repositoryId +'&branchId=' + branchId;
                 } else {
                     var url = 'api/v1/statuses';
                 }
@@ -93,8 +93,9 @@ function loadRepo(event) {
                     "serverSide": true,
                     "ajax": url,
                     "searching": false,
-                    "order": [[5, 'desc']],
+                    "order": [[6, 'desc']],
                     "columns": [
+                        {"data": "branch.name"},
                         {"data": "stage"},
                         {"data": "version"},
                         {"data": "userId"},
@@ -111,11 +112,11 @@ function loadRepo(event) {
 }
 
 function loadBranch(event) {
+    var repositoryId = $("li[data-repository-id]").attr("data-repository-id");
     var branchId = $("#branch").val();
+    var url = 'api/v1/statuses?repositoryId='+ repositoryId;
     if (branchId) {
-        var url = 'api/v1/statuses?branchId=' + branchId;
-    } else {
-        var url = 'api/v1/statuses';
+        url = url + '&branchId=' + branchId;
     }
     $('#resulttable').DataTable().ajax.url(url).load();
 }
