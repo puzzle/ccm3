@@ -41,7 +41,7 @@ The application expects a security domain with the name `ccm3` configured in JBo
 
 JBoss Security-Domain configuration snippet:
 ```xml
-<security-domain name="ccm3" required="true">
+<security-domain name="ccm3">
     <authentication>
         <login-module code="org.jboss.security.auth.spi.UsersRolesLoginModule" flag="required">
             <module-option name="usersProperties" value="${jboss.server.config.dir}/application-users.properties"/>
@@ -51,16 +51,17 @@ JBoss Security-Domain configuration snippet:
 </security-domain>
 ```
 
-Add a local application user by jboss-cli:
+Add a local application user and role:
 ```
-${JBOSS_HOME}/bin/add-user.sh -a -u <username> -p <password> -g ccm3-user
+$ echo "username=password" >> application-users.properties
+$ echo "username=ccm3-user" >> application-roles.properties
 ```
 
 ### Datasource
 To start the application a datasource needs to be configured in the
 application server. This can either be a in memory or a persistent
 database.
-
+    
 JDBC Driver
 Deploy the JDBC Driver to the application Server as a managed deployment:
 ```
