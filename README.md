@@ -87,6 +87,19 @@ A SQL script to create the initial database schema is provided under
 ${project-root}/src/main/sql/schema.sql
 ```
 
+### Swagger
+Swagger can be configured by system properties:
+
+Configure basepath (defaults to 'ccm3-viewer/api/v1'):
+```
+-Dswagger.api.basepath=/application/api-url/v42
+```
+
+Configure host (defaults to 'localhost:8080'):
+```
+-Dswagger.api.basepath=8.8.8.8:80
+```
+
 ## Deployment of the application
 The deployment of the application into a local running JBoss EAP 7 /
 Wildlfy 10 instance can be done by Maven:
@@ -105,6 +118,12 @@ $ mvn wildfly:undeploy
 ```
 
 ## REST API
-The documentation of the REST API is done with Swagger:
-* Swagger UI: http://localhost:8080/ccm3-viewer/swagger
-* Swagger Data JSON: http://localhost:8080/ccm3-viewer/api/v1/swagger.json
+Root of the REST Endpoint
+```
+http://localhost:8080/ccm3-viewer/api/v1
+```
+
+Swagger UI, Documentation of the Endpoints including a REST Client
+```
+http://localhost:8080/ccm3-viewer/swagger
+```
