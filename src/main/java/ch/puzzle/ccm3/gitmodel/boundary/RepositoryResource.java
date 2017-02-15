@@ -19,6 +19,8 @@ import java.util.Map;
 
 import static ch.puzzle.ccm3.DefaultValues.PAGE_SIZE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.noContent;
+import static javax.ws.rs.core.Response.ok;
 
 
 @Stateless
@@ -35,12 +37,9 @@ public class RepositoryResource {
     @Path("/{id}")
     @JsonView(JsonViews.FromRepository.class)
     @ApiOperation("Find a repository by id including its branches")
-    public Repository getRepositoryById(@PathParam("id") long id) throws WebApplicationException {
+    public Response getRepositoryById(@PathParam("id") long id) throws WebApplicationException {
         Repository repository = this.repository.findByIdWithChilds(id);
-        if (repository == null) {
-            throw new WebApplicationException(Response.Status.NO_CONTENT);
-        }
-        return repository;
+        return repository == null ? noContent().build() : ok(repository).build();
     }
 
     @GET
@@ -57,6 +56,6 @@ public class RepositoryResource {
         PaginatedResult<Repository> paginatedResult = new PaginatedResult<>(result, totalCount,
                 offset != null ? offset : 0, pageSize != null ? pageSize : PAGE_SIZE);
 
-        return Response.ok(paginatedResult).build();
+        return ok(paginatedResult).build();
     }
 }

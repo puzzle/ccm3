@@ -2,7 +2,6 @@ package ch.puzzle.ccm3.gitmodel.boundary;
 
 import ch.puzzle.ccm3.gitmodel.control.RepositoryGroupRepository;
 import ch.puzzle.ccm3.gitmodel.control.RepositoryRepository;
-import ch.puzzle.ccm3.gitmodel.entity.JsonViews;
 import ch.puzzle.ccm3.gitmodel.entity.JsonViews.FromRepositoryGroup;
 import ch.puzzle.ccm3.gitmodel.entity.RepositoryGroup;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -15,6 +14,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+
+import static javax.ws.rs.core.Response.noContent;
+import static javax.ws.rs.core.Response.ok;
 
 @Stateless
 @Api(tags = "ccm3-viewer")
@@ -31,21 +33,18 @@ public class RepositoryGroupResource {
     @GET
     @JsonView(FromRepositoryGroup.class)
     @ApiOperation("Find all repository groups entries")
-    public List<RepositoryGroup> getRepositoryGroupEntries() {
-        return repositoryGroupRepository.findAllOrderedByName();
+    public Response getRepositoryGroupEntries() {
+        List<RepositoryGroup> repositoryGroups = repositoryGroupRepository.findAllOrderedByName();
+        return (repositoryGroups == null || repositoryGroups.isEmpty()) ? noContent().build() : ok(repositoryGroups).build();
     }
 
     @GET
     @Path("/{id}")
     @JsonView(FromRepositoryGroup.class)
     @ApiOperation("Find a repository group by id, include repository")
-    public RepositoryGroup getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
-
+    public Response getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
         RepositoryGroup repositoryGroup = repositoryGroupRepository.findByIdWithRepositories(id);
-        if (repositoryGroup == null) {
-            throw new WebApplicationException(Response.Status.NO_CONTENT);
-        }
-        return repositoryGroup;
+        return repositoryGroup == null ? noContent().build() : ok(repositoryGroup).build();
     }
 
 
@@ -53,11 +52,8 @@ public class RepositoryGroupResource {
     @JsonView(FromRepositoryGroup.class)
     @Path("/repository-name/{repositoryName}")
     @ApiOperation("Find repository group by child Repositories name")
-    public List<RepositoryGroup> findRepositoryGroupsWithRepositoryEntriesByRepositoryName(@PathParam("repositoryName") String repositoryName) {
+    public Response findRepositoryGroupsWithRepositoryEntriesByRepositoryName(@PathParam("repositoryName") String repositoryName) {
         List<RepositoryGroup> repositoryGroups = repositoryGroupRepository.findByRepositoryNameWithRepositories(repositoryName);
-        if (repositoryGroups == null || repositoryGroups.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NO_CONTENT);
-        }
-        return repositoryGroups;
+        return (repositoryGroups == null || repositoryGroups.isEmpty()) ? noContent().build() : ok(repositoryGroups).build();
     }
 }

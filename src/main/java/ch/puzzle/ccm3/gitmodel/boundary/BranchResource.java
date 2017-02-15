@@ -13,6 +13,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.noContent;
+import static javax.ws.rs.core.Response.ok;
 
 @Stateless
 @Path("/branches")
@@ -28,11 +30,8 @@ public class BranchResource {
     @Path("/{id}")
     @JsonView(FromBranch.class)
     @ApiOperation("Find a branch by id, include statuses")
-    public Branch getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
+    public Response getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
         Branch branch = repository.findByIdWithChilds(id);
-        if (repository == null) {
-            throw new WebApplicationException(Response.Status.NO_CONTENT);
-        }
-        return branch;
+        return branch == null ? noContent().build() : ok(branch).build();
     }
 }
