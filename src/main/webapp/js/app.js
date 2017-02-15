@@ -48,8 +48,6 @@ function searchByRepo(event) {
 function loadRepoGroup(event) {
     var element = $(event.currentTarget).parent();
     var id = element.data("element-id");
-    //element.parent.find("li").removeClass("active");
-
     $.ajax(
         'api/v1/repository-groups/' + id,
         {
@@ -70,6 +68,7 @@ function loadRepoGroup(event) {
 function loadRepo(event) {
     var element = $(event.currentTarget).parent();
     var repositoryId = element.data("element-id");
+    $('.reponavigation.active').removeClass('active');
     $(event.currentTarget).addClass("active");
     $.ajax(
         'api/v1/repositories/' + repositoryId,

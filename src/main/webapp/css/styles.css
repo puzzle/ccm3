@@ -91,18 +91,21 @@ body {
   padding-left: 20px;
   border-top: 1px solid #ddd;
 }
+.navbar .active {
+  color: #fff !important;
+  background-color: #000;
+}
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
-}
-
 .nav-sidebar > li > ul > li {
   background-color: #fafafa;
 }
+.reponavigation.active {
+  color: #23527c !important;
+  background-color: #e8e8e8 !important;
+}
 .nav-sidebar > li > ul > li > a {
-  padding-left: 40px;
+  padding-left: 30px;
 }
 
 /*
