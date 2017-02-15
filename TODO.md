@@ -1,9 +1,7 @@
 TODOs
 =====
-* Prettify log.html search input fields (make 2 or 3 columns for input fields) (rb)
 * Log view: search on pressing return (rb)
-* Make left menu navbar to have a fixed width (bb)
-* Model fields Action and Stage as Dropdowns which can be overwritten
+* Model fields Action and Stage as Dropdowns which can be overwritten (bb)
 
 Done
 ====
@@ -13,10 +11,13 @@ Done
 * Implement search of Repositories in UI and expand the matched groups
 * Make date range selection filter work
 * Clear the repostiory search string and reload the data
+* Make left menu navbar to have a fixed width
+* Prettify log.html search input fields (make 2 or 3 columns for input fields)
 
 Improvements
 ============
 * Use bookmarkable URLs
+* Alert dialog if search results in menu was empty
 * Pack client-side libs with application
 * Introduce DTOs instead of serializing the entities directly to JSON
 * Make separate REST Resources for Datatables because of ugly multidimensional params

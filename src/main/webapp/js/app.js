@@ -4,13 +4,15 @@ function loadRepoGroups() {
         {
             type: 'GET',
             success: function (data) {
-                // remove existing and
                 $("#repositoryGroups").empty();
-                $.each(data,
-                    function (i, item) {
-                        $("#repositoryGroups").append(
-                            '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
-                    });
+                if(data) {
+                    $.each(data,
+                        function (i, item) {
+                            $("#repositoryGroups").append(
+                                '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
+                        }
+                    );
+                }
             }
         }).error(function () {
         //console.log("error");
@@ -27,20 +29,23 @@ function searchByRepo(event) {
                 type: 'GET',
                 success: function (data) {
                     $("#repositoryGroups").empty();
-                    $.each(data,
-                        function (i, item) {
-                            var repogroupHtml = '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a>' +
-                                '<ul class="nav collapse in" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true">';
-                            $.each(item.repositories,
-                                function (i, repository) {
-                                    repogroupHtml += '<li data-element-id="' + repository.id + '"><a class="reponavigation" href="#">' + repository.name + '</a></li>';
+                    if(data) {
+                        $.each(data,
+                            function (i, item) {
+                                var repogroupHtml = '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a>' +
+                                    '<ul class="nav collapse in" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true">';
+                                if(item.repositories) {
+                                    $.each(item.repositories,
+                                        function (i, repository) {
+                                            repogroupHtml += '<li data-element-id="' + repository.id + '"><a class="reponavigation" href="#">' + repository.name + '</a></li>';
+                                        }
+                                    );
                                 }
-                            );
-                            repogroupHtml += "</ul></li>";
-
-                            $("#repositoryGroups").append(repogroupHtml);
-                        }
-                    );
+                                repogroupHtml += "</ul></li>";
+                                $("#repositoryGroups").append(repogroupHtml);
+                            }
+                        );
+                    }
                 }
             }).error(function () {
             //console.log("error");
@@ -60,10 +65,13 @@ function loadRepoGroup(event) {
             type: 'GET',
             success: function (data) {
                 element.find("ul").empty();
-                $.each(data.repositories,
-                    function (i, item) {
-                        element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
-                    });
+                if(data) {
+                    $.each(data.repositories,
+                        function (i, item) {
+                            element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
+                        }
+                    );
+                }
                 element.find("ul").toggleClass("in");
             }
         }).error(function () {
