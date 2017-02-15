@@ -1,6 +1,6 @@
 TODOs
 =====
-* Implement search of Repositories in UI and expand the matched groups (rb)
+* Implement search of Repositories in UI and expand the matched groups, message nothing found (rb)
 * Clear the repostiory search string and reload the data (rb)
 * Highlight selected Repository in navigation tree (bb)
 * Prettify log.html search input fields (make 2 or 3 columns for input fields) (rb)
