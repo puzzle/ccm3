@@ -254,6 +254,15 @@
     }
     function bindevent(){
         $(document).on("click","#searchButton", searchLogs);
+        $(document).on("change","#action", searchLogs);
+        $(document).on("change","#stage", searchLogs);
+        $(document).on("change","#repositoryName", searchLogs);
+        $(document).on("change","#repositoryGroupName", searchLogs);
+        $(document).on("change","#branch", searchLogs);
+        $(document).on("change","#version", searchLogs);
+        $(document).on("change","#user", searchLogs);
+        $(document).on("change","#auftragNr", searchLogs);
+        $(document).on("change","#auftrag", searchLogs);
     }
 </script>
 <script type="text/javascript" src="js/app.js"></script>
