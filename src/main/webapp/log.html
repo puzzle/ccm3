@@ -134,7 +134,7 @@
             </div>
             <hr/>
             <div class="table-responsive">
-                <table class="table table-striped" id="resulttable">
+                <table class="table table-striped table-full-width" id="resulttable">
                     <thead>
                     <tr>
                         <th>Action</th>
@@ -160,12 +160,9 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
-    window.jQuery
-    || document
-            .write('<script src="js/vendor/jquery.min.js"><\/script>')
+    window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -188,10 +185,12 @@
                 {"data": "userId"},
                 {"data": "auftragNr"},
                 {"data": "logdate"}
-            ]
+            ],
+            "columnDefs": [{
+                targets: 8,
+                render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss','DD.MM.YYYY HH:mm')
+            }]
         });
-
-        //$('.combobox').combobox();
         $('.datepicker').datetimepicker();
     });
 
@@ -254,7 +253,11 @@
                 { "data": "userId" },
                 { "data": "auftragNr" },
                 { "data": "logdate" }
-            ]
+            ],
+            "columnDefs": [{
+                targets: 8,
+                render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss','DD.MM.YYYY HH:mm')
+            }]
         } );
 
     }
@@ -265,10 +268,10 @@
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/vendor/handlebars.min-6300e57.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/r-2.1.0/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/dataRender/datetime.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
-
 <script type="text/javascript" src="js/bootstrap-combobox.js"></script>
 </body>
 </html>

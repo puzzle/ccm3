@@ -11,7 +11,6 @@ function loadRepoGroups() {
                         $("#repositoryGroups").append(
                             '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
                     });
-
             }
         }).error(function () {
         //console.log("error");
@@ -42,7 +41,6 @@ function searchByRepo(event) {
                             $("#repositoryGroups").append(repogroupHtml);
                         }
                     );
-                    //$("#submenu1").toggleClass("in");
                 }
             }).error(function () {
             //console.log("error");
@@ -109,7 +107,11 @@ function loadRepo(event) {
                         {"data": "status"},
                         {"data": "auftragNr"},
                         {"data": "executed"}
-                    ]
+                    ],
+                    "columnDefs": [{
+                        targets: 6,
+                        render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss','DD.MM.YYYY HH:mm')
+                    }]
                 });
                 $('.datepicker').datetimepicker();
             }

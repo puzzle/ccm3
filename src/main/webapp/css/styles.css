@@ -159,3 +159,8 @@ body {
 .breadcrumb > li + li::before {
   content: "\2192";
 }
+
+/* Tables */
+.table-full-width {
+  width: 100% !important;
+}
