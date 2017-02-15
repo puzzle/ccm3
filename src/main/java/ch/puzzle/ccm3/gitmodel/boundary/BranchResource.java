@@ -30,7 +30,7 @@ public class BranchResource {
     @Path("/{id}")
     @JsonView(FromBranch.class)
     @ApiOperation("Find a branch by id, include statuses")
-    public Response getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
+    public Response getRepositoryGroupById(@PathParam("id") long id) {
         Branch branch = repository.findByIdWithChilds(id);
         return branch == null ? noContent().build() : ok(branch).build();
     }

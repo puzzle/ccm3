@@ -3,8 +3,6 @@ package ch.puzzle.ccm3.log.control;
 import ch.puzzle.ccm3.BaseRepository;
 import ch.puzzle.ccm3.SortCriteria;
 import ch.puzzle.ccm3.log.entity.Log;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.criteria.*;
@@ -14,13 +12,21 @@ import java.util.Map;
 
 import static ch.puzzle.ccm3.DefaultValues.PAGE_SIZE;
 import static ch.puzzle.ccm3.SortCriteria.SortDirection.DESC;
+import static ch.puzzle.ccm3.log.entity.Log.FIND_ALL_ACTIONS;
+import static ch.puzzle.ccm3.log.entity.Log.FIND_ALL_STAGES;
 
 @ApplicationScoped
 public class LogRepository extends BaseRepository<Log> {
-    private final Logger logger = LoggerFactory.getLogger(LogRepository.class);
-
     protected LogRepository() {
         super(Log.class);
+    }
+
+    public List<String> findAllStages() {
+        return getEntityManager().createNamedQuery(FIND_ALL_STAGES, String.class).getResultList();
+    }
+
+    public List<String> findAllActions() {
+        return getEntityManager().createNamedQuery(FIND_ALL_ACTIONS, String.class).getResultList();
     }
 
     public List<Log> search(Map<String, String> searchParameters) {

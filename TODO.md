@@ -1,7 +1,8 @@
 TODOs
 =====
-* Log view: search on pressing return (rb)
 * Model fields Action and Stage as Dropdowns which can be overwritten (bb)
+* Show number of filtered and total Repositories in group
+* Remember filter if collapsing and expanding repository group
 
 Done
 ====
@@ -13,6 +14,7 @@ Done
 * Clear the repostiory search string and reload the data
 * Make left menu navbar to have a fixed width
 * Prettify log.html search input fields (make 2 or 3 columns for input fields)
+* Log view: search on pressing return
 
 Improvements
 ============

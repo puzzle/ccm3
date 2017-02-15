@@ -37,7 +37,7 @@ public class RepositoryResource {
     @Path("/{id}")
     @JsonView(JsonViews.FromRepository.class)
     @ApiOperation("Find a repository by id including its branches")
-    public Response getRepositoryById(@PathParam("id") long id) throws WebApplicationException {
+    public Response getRepositoryById(@PathParam("id") long id) {
         Repository repository = this.repository.findByIdWithChilds(id);
         return repository == null ? noContent().build() : ok(repository).build();
     }
@@ -51,6 +51,8 @@ public class RepositoryResource {
         Map<String, String> searchParameters = new HashMap<>();
         searchParameters.put("name", name);
         List<Repository> result = repository.search(null, null, new SortCriteria("name", SortCriteria.SortDirection.ASC), searchParameters);
+
+        // TODO: count result and return them
 
         int totalCount = 123;
         PaginatedResult<Repository> paginatedResult = new PaginatedResult<>(result, totalCount,

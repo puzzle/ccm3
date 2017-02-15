@@ -42,7 +42,7 @@ public class RepositoryGroupResource {
     @Path("/{id}")
     @JsonView(FromRepositoryGroup.class)
     @ApiOperation("Find a repository group by id, include repository")
-    public Response getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
+    public Response getRepositoryGroupById(@PathParam("id") long id) {
         RepositoryGroup repositoryGroup = repositoryGroupRepository.findByIdWithRepositories(id);
         return repositoryGroup == null ? noContent().build() : ok(repositoryGroup).build();
     }

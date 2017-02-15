@@ -6,9 +6,18 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 
+import static ch.puzzle.ccm3.log.entity.Log.FIND_ALL_ACTIONS;
+import static ch.puzzle.ccm3.log.entity.Log.FIND_ALL_STAGES;
+
 @Entity
 @XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = FIND_ALL_STAGES, query = "select distinct stage from Log log order by stage"),
+        @NamedQuery(name = FIND_ALL_ACTIONS, query = "select distinct action from Log log order by action")
+})
 public class Log {
+    public static final String FIND_ALL_STAGES = "Status.findAllStages";
+    public static final String FIND_ALL_ACTIONS = "Status.findAllActions";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +58,7 @@ public class Log {
     @Size(max = 24)
     private String auftragNr;
 
-    public  Log() {
+    public Log() {
     }
 
     public Log(String repositoryGroupName, String repositoryName, String action, String stage, String branch, String version, String userId, String auftragNr, LocalDateTime logdate) {

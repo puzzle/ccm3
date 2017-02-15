@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static ch.puzzle.ccm3.DefaultValues.PAGE_SIZE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.ok;
 
 @Stateless
 @Path("/logs")
@@ -77,5 +78,19 @@ public class LogResource {
                 pageSize != null ? pageSize : PAGE_SIZE, draw != null ? draw : 1);
 
         return Response.ok(paginatedResult).build();
+    }
+
+    @GET
+    @Path("/stages")
+    @ApiOperation("Finds all Stages of all Log records. Distinct the results.")
+    public Response findAllStages() {
+        return ok(repository.findAllStages()).build();
+    }
+
+    @GET
+    @Path("/actions")
+    @ApiOperation("Finds all Actions of all Log records. Distinct the results.")
+    public Response findAllActions() {
+        return ok(repository.findAllActions()).build();
     }
 }
