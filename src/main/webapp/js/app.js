@@ -21,20 +21,28 @@ function loadRepoGroups() {
 function searchByRepo(event) {
     var element = $(event.currentTarget);
     var searchVal = element.val();
-    if (searchVal.length > 3) {
+    if (searchVal.length > 2) {
         $.ajax(
             'api/v1/repository-groups/repository-name/' + searchVal,
             {
                 type: 'GET',
                 success: function (data) {
-                    // remove existing and
                     $("#repositoryGroups").empty();
                     $.each(data,
                         function (i, item) {
-                            $("#repositoryGroups").append(
-                                '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
-                        });
+                            var repogroupHtml = '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a>' +
+                                '<ul class="nav collapse in" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true">';
+                            $.each(item.repositories,
+                                function (i, repository) {
+                                    repogroupHtml += '<li data-element-id="' + repository.id + '"><a class="reponavigation" href="#">' + repository.name + '</a></li>';
+                                }
+                            );
+                            repogroupHtml += "</ul></li>";
 
+                            $("#repositoryGroups").append(repogroupHtml);
+                        }
+                    );
+                    //$("#submenu1").toggleClass("in");
                 }
             }).error(function () {
             //console.log("error");

@@ -3,6 +3,7 @@ package ch.puzzle.ccm3.gitmodel.boundary;
 import ch.puzzle.ccm3.gitmodel.control.RepositoryGroupRepository;
 import ch.puzzle.ccm3.gitmodel.control.RepositoryRepository;
 import ch.puzzle.ccm3.gitmodel.entity.JsonViews;
+import ch.puzzle.ccm3.gitmodel.entity.JsonViews.FromRepositoryGroup;
 import ch.puzzle.ccm3.gitmodel.entity.RepositoryGroup;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
@@ -28,7 +29,7 @@ public class RepositoryGroupResource {
     private RepositoryRepository repositoryRepository;
 
     @GET
-    @JsonView(JsonViews.FromRepositoryGroup.class)
+    @JsonView(FromRepositoryGroup.class)
     @ApiOperation("Find all repository groups entries")
     public List<RepositoryGroup> getRepositoryGroupEntries() {
         return repositoryGroupRepository.findAllOrderedByName();
@@ -36,7 +37,7 @@ public class RepositoryGroupResource {
 
     @GET
     @Path("/{id}")
-    @JsonView(JsonViews.FromRepositoryGroup.class)
+    @JsonView(FromRepositoryGroup.class)
     @ApiOperation("Find a repository group by id, include repository")
     public RepositoryGroup getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
 
@@ -49,10 +50,10 @@ public class RepositoryGroupResource {
 
 
     @GET
+    @JsonView(FromRepositoryGroup.class)
     @Path("/repository-name/{repositoryName}")
     @ApiOperation("Find repository group by child Repositories name")
     public List<RepositoryGroup> findRepositoryGroupsWithRepositoryEntriesByRepositoryName(@PathParam("repositoryName") String repositoryName) {
-
         List<RepositoryGroup> repositoryGroups = repositoryGroupRepository.findByRepositoryNameWithRepositories(repositoryName);
         if (repositoryGroups == null || repositoryGroups.isEmpty()) {
             throw new WebApplicationException(Response.Status.NO_CONTENT);
