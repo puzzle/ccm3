@@ -42,7 +42,7 @@ public class RepositoryGroupResource {
 
         RepositoryGroup repositoryGroup = repositoryGroupRepository.findByIdWithRepositories(id);
         if (repositoryGroup == null) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new WebApplicationException(Response.Status.NO_CONTENT);
         }
         return repositoryGroup;
     }
@@ -55,7 +55,7 @@ public class RepositoryGroupResource {
 
         List<RepositoryGroup> repositoryGroups = repositoryGroupRepository.findByRepositoryNameWithRepositories(repositoryName);
         if (repositoryGroups == null || repositoryGroups.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new WebApplicationException(Response.Status.NO_CONTENT);
         }
         return repositoryGroups;
     }

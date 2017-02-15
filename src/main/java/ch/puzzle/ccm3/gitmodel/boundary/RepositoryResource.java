@@ -38,7 +38,7 @@ public class RepositoryResource {
     public Repository getRepositoryById(@PathParam("id") long id) throws WebApplicationException {
         Repository repository = this.repository.findByIdWithChilds(id);
         if (repository == null) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new WebApplicationException(Response.Status.NO_CONTENT);
         }
         return repository;
     }

@@ -31,7 +31,7 @@ public class BranchResource {
     public Branch getRepositoryGroupById(@PathParam("id") long id) throws WebApplicationException {
         Branch branch = repository.findByIdWithChilds(id);
         if (repository == null) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new WebApplicationException(Response.Status.NO_CONTENT);
         }
         return branch;
     }
