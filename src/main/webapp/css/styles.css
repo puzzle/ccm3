@@ -108,6 +108,10 @@ body {
   padding-left: 30px;
 }
 
+.row.extra-bottom-padding{
+  margin-bottom: 5px;
+}
+
 /* Search input clear */
 ::-ms-clear {
   display: none;
