@@ -101,7 +101,7 @@
 
     function bindevent(){
       $(document).on("click","#repositoryGroups > li > a", loadRepoGroup);
-      $(document).on("change","#searchfield", searchByRepo);
+      $(document).on("keyup","#searchfield", searchByRepo);
       $(document).on("click",".reponavigation", loadRepo);
     }
   </script>
