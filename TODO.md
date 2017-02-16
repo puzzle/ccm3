@@ -1,7 +1,5 @@
 TODOs
 =====
-* Show number of filtered and total Repositories in group
-* Remember filter if collapsing and expanding repository group
 
 Done
 ====
@@ -15,6 +13,8 @@ Done
 * Prettify log.html search input fields (make 2 or 3 columns for input fields)
 * Log view: search on pressing return
 * Model fields Action and Stage as Dropdowns which can be overwritten
+* Remember filter if collapsing and expanding repository group
+* Status records are missing when filtering by repo name
 
 Improvements
 ============
@@ -23,3 +23,4 @@ Improvements
 * Pack client-side libs with application
 * Introduce DTOs instead of serializing the entities directly to JSON
 * Make separate REST Resources for Datatables because of ugly multidimensional params
+* Show number of filtered and total Repositories in group

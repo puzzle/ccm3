@@ -97,10 +97,9 @@ function loadRepo(event) {
                 var context = {data: data};
                 var html = template(context);
                 var branchId = $("#branch").val();
+                var url = 'api/v1/statuses?repositoryId='+ repositoryId;
                 if (branchId) {
-                    var url = 'api/v1/statuses?repositoryId='+ repositoryId +'&branchId=' + branchId;
-                } else {
-                    var url = 'api/v1/statuses';
+                    url += '&branchId=' + branchId;
                 }
 
                 $("#repoDetails").html(html);
