@@ -1,5 +1,6 @@
 TODOs
 =====
+* Log and Repositories View: _Show x entries_ will always reset to 10 after each page reload (Tested on Firefox 51.0.1 and Internet Explorer 11)
 
 Done
 ====
