@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,13 +85,33 @@ public class LogResource {
     @Path("/stages")
     @ApiOperation("Finds all Stages of all Log records. Distinct the results.")
     public Response findAllStages() {
-        return ok(repository.findAllStages()).build();
+        List<DropdownValue> result = new ArrayList<>();
+        repository.findAllStages().stream().forEach(action -> result.add(new DropdownValue(action)));
+        return ok(result).build();
     }
 
     @GET
     @Path("/actions")
     @ApiOperation("Finds all Actions of all Log records. Distinct the results.")
     public Response findAllActions() {
-        return ok(repository.findAllActions()).build();
+        List<DropdownValue> result = new ArrayList<>();
+        repository.findAllActions().stream().forEach(action -> result.add(new DropdownValue(action)));
+        return ok(result).build();
+    }
+
+    public static class DropdownValue {
+        private String name;
+
+        public DropdownValue(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.13/r-2.1.0/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrap-combobox.css"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,11 +58,15 @@
                     <div class="row extra-bottom-padding">
                         <div class="col-sm-2">Action</div>
                         <div class="col-sm-2">
-                            <input type="text" id="action" class="form-control"/>
+                            <select id="action" placeholder="Select an action...">
+                                <option value="">Type an action...</option>
+                            </select>
                         </div>
                         <div class="col-sm-2">Stage</div>
                         <div class="col-sm-2">
-                            <input type="text" id="stage" class="form-control"/>
+                            <select id="stage" placeholder="Select a Stage...">
+                                <option value="">Type a Stage...</option>
+                            </select>
                         </div>
                     </div><!-- /.row -->
                     <div class="row extra-bottom-padding">
@@ -163,6 +168,7 @@
     $(document).ready(function() {
         $('#action').focus();
         bindevent();
+        initDropdowns();
         datatable = $('#resulttable').DataTable({
             "processing": true,
             "serverSide": true,
@@ -257,7 +263,13 @@
 
     }
     function clearFields(event) {
-        $('#action').val('');
+        var $select = $('#action').selectize();
+        var control = $select[0].selectize;
+        control.clear();
+        var $select = $('#stage').selectize();
+        var control = $select[0].selectize;
+        control.clear();
+
         $('#stage').val('');
         $('#repositoryName').val('');
         $('#repositoryGroupName').val('');
@@ -278,6 +290,66 @@
             }
         });
     }
+    function initDropdowns() {
+        $('#action').selectize({
+            preload: true,
+            valueField: 'name',
+            labelField: 'name',
+            sortField: 'name',
+            searchField: 'name',
+            create: false,
+            render: {
+                option: function(item, escape) {
+                    return '<option value="' + item.name + '">' + item.name + '</option>';
+                }
+            },
+            load: function(query, callback) {
+                $.ajax({
+                    url: 'api/v1/logs/actions',
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                $('#searchButton').click();;
+            }
+        });
+        $('#stage').selectize({
+            preload: true,
+            valueField: 'name',
+            labelField: 'name',
+            sortField: 'name',
+            searchField: 'name',
+            create: false,
+            render: {
+                option: function(item, escape) {
+                    return '<option value="' + item.name + '">' + item.name + '</option>';
+                }
+            },
+            load: function(query, callback) {
+                $.ajax({
+                    url: 'api/v1/logs/stages',
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                $('#searchButton').click();;
+            }
+        });
+    }
 </script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/vendor/handlebars.min-6300e57.js"></script>
@@ -286,6 +358,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js"></script>
 <script type="text/javascript" src="js/bootstrap-combobox.js"></script>
 </body>
 </html>
