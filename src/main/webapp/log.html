@@ -300,7 +300,7 @@
             create: false,
             render: {
                 option: function(item, escape) {
-                    return '<option value="' + item.name + '">' + item.name + '</option>';
+                    return '<div class="option" value="' + item.name + '">' + item.name + '</div>';
                 }
             },
             load: function(query, callback) {
@@ -329,7 +329,7 @@
             create: false,
             render: {
                 option: function(item, escape) {
-                    return '<option value="' + item.name + '">' + item.name + '</option>';
+                    return '<div class="option" value="' + item.name + '">' + item.name + '</option>';
                 }
             },
             load: function(query, callback) {
