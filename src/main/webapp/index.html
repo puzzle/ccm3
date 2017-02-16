@@ -67,18 +67,15 @@
     </div>
   </div>
 
-
-  <!-- Bootstrap core JavaScript
-  ================================================== -->
+  <!-- Bootstrap core JavaScript -->
   <!-- Placed at the end of the document so the pages load faster -->
-  <script
-          src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script>
-    window.jQuery
-    || document
-            .write('<script src="js/vendor/jquery.min.js"><\/script>')
+    window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
   </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/vendor/handlebars.min-6300e57.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       loadRepoGroups();
@@ -104,8 +101,6 @@
       $(document).on("click",".reponavigation", loadRepo);
     }
   </script>
-  <script type="text/javascript" src="js/app.js"></script>
-  <script type="text/javascript" src="js/vendor/handlebars.min-6300e57.js"></script>
   <script id="repo-template" type="text/x-handlebars-template">
     <ul class="breadcrumb page-header">
       <li>{{data.repositoryGroup.name}}</li>

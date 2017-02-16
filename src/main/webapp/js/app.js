@@ -22,7 +22,7 @@ function loadRepoGroups() {
 function searchByRepo(event) {
     var element = $(event.currentTarget);
     var searchVal = element.val();
-    if (searchVal.length > 2) {
+    if (searchVal && searchVal.length >= 3) {
         $.ajax(
             'api/v1/repository-groups/repository-name/' + searchVal,
             {
@@ -57,26 +57,29 @@ function searchByRepo(event) {
 }
 
 function loadRepoGroup(event) {
+    var searchString = $('#searchfield').val();
     var element = $(event.currentTarget).parent();
     var id = element.data("element-id");
-    $.ajax(
-        'api/v1/repository-groups/' + id,
-        {
-            type: 'GET',
-            success: function (data) {
-                element.find("ul").empty();
-                if(data) {
-                    $.each(data.repositories,
-                        function (i, item) {
-                            element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
-                        }
-                    );
+    if(!searchString && searchString.length < 3) {
+        $.ajax(
+            'api/v1/repository-groups/' + id,
+            {
+                type: 'GET',
+                success: function (data) {
+                    element.find("ul").empty();
+                    if (data) {
+                        $.each(data.repositories,
+                            function (i, item) {
+                                element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
+                            }
+                        );
+                    }
                 }
-                element.find("ul").toggleClass("in");
-            }
-        }).error(function () {
-        //console.log("error");
-    });
+            }).error(function () {
+            //console.log("error");
+        });
+    }
+    element.find("ul").toggleClass("in");
 }
 
 function loadRepo(event) {
