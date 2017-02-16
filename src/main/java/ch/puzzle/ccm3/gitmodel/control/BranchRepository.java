@@ -13,7 +13,7 @@ public class BranchRepository extends BaseRepository<Branch> {
         super(Branch.class);
     }
 
-    public Branch findByIdWithChilds(Long id) {
+    public Branch findByIdWithStatuses(Long id) {
         EntityGraph<Branch> graph = getGraph();
         graph.addSubgraph("statuses");
         return findWithGraph(graph, id);

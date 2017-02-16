@@ -15,7 +15,7 @@ based client.
 * Java EE 7
 * JAX-RS, JPA 2.1, Bean Validation 1.1
 * Java 8
-* HTML5, jQuery, Bootstrap, datatables.net
+* HTML5, jQuery 1.11, Bootstrap 3, datatables.net 1.10
 * MySQL Database
 
 ## Architecture

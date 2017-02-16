@@ -36,14 +36,14 @@ public class RepositoryResource {
     @GET
     @Path("/{id}")
     @JsonView(JsonViews.FromRepository.class)
-    @ApiOperation("Find a repository by id including its branches")
+    @ApiOperation("Finds a repository by id including its branches")
     public Response getRepositoryById(@PathParam("id") long id) {
         Repository repository = this.repository.findByIdWithChilds(id);
         return repository == null ? noContent().build() : ok(repository).build();
     }
 
     @GET
-    @ApiOperation("Find Repositsories by name. Supports pagination.")
+    @ApiOperation("Finds Repositories by name, supports pagination.")
     public Response findRepositoryEntries(@QueryParam("name") String name,
                                           @QueryParam("offset") Integer offset,
                                           @QueryParam("pageSize") Integer pageSize) {

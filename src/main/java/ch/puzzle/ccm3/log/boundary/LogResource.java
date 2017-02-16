@@ -45,7 +45,7 @@ public class LogResource {
     }
 
     @GET
-    @ApiOperation("Find Log Entries by filter parameters, supports pagination and ordering")
+    @ApiOperation("Find Logs by filter parameters, supports pagination and ordering")
     public Response getLogEntries(@QueryParam("repositoryName") String repositoryName,
                                   @QueryParam("repositoryGroupName") String repositoryGroupName,
                                   @QueryParam("action") String action,
@@ -83,7 +83,7 @@ public class LogResource {
 
     @GET
     @Path("/stages")
-    @ApiOperation("Finds all Stages of all Log records. Distinct the results.")
+    @ApiOperation("Finds distinct Stages of all Log records")
     public Response findAllStages() {
         List<DropdownValue> result = new ArrayList<>();
         repository.findAllStages().stream().forEach(action -> result.add(new DropdownValue(action)));
@@ -92,7 +92,7 @@ public class LogResource {
 
     @GET
     @Path("/actions")
-    @ApiOperation("Finds all Actions of all Log records. Distinct the results.")
+    @ApiOperation("Finds distinct Actions of all Log records")
     public Response findAllActions() {
         List<DropdownValue> result = new ArrayList<>();
         repository.findAllActions().stream().forEach(action -> result.add(new DropdownValue(action)));

@@ -24,6 +24,7 @@ import static javax.ws.rs.core.Response.ok;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RepositoryGroupResource {
+
     @Inject
     private RepositoryGroupRepository repositoryGroupRepository;
 
@@ -32,8 +33,8 @@ public class RepositoryGroupResource {
 
     @GET
     @JsonView(FromRepositoryGroup.class)
-    @ApiOperation("Find all repository groups entries")
-    public Response getRepositoryGroupEntries() {
+    @ApiOperation("Finds all repository groups")
+    public Response findAllRepositoryGroups() {
         List<RepositoryGroup> repositoryGroups = repositoryGroupRepository.findAllOrderedByName();
         return (repositoryGroups == null || repositoryGroups.isEmpty()) ? noContent().build() : ok(repositoryGroups).build();
     }
@@ -41,8 +42,8 @@ public class RepositoryGroupResource {
     @GET
     @Path("/{id}")
     @JsonView(FromRepositoryGroup.class)
-    @ApiOperation("Find a repository group by id, include repository")
-    public Response getRepositoryGroupById(@PathParam("id") long id) {
+    @ApiOperation("Finds a repository group by id, include repositories")
+    public Response findRepositoryGroupByIdWithRepositories(@PathParam("id") long id) {
         RepositoryGroup repositoryGroup = repositoryGroupRepository.findByIdWithRepositories(id);
         return repositoryGroup == null ? noContent().build() : ok(repositoryGroup).build();
     }
@@ -50,9 +51,9 @@ public class RepositoryGroupResource {
 
     @GET
     @JsonView(FromRepositoryGroup.class)
-    @Path("/repository-name/{repositoryName}")
-    @ApiOperation("Find repository group by child Repositories name")
-    public Response findRepositoryGroupsWithRepositoryEntriesByRepositoryName(@PathParam("repositoryName") String repositoryName) {
+    @Path("/repository-name/{name}")
+    @ApiOperation("Finds repository group by name of repositories")
+    public Response findRepositoryGroupsByRepositoryNameWithRepositories(@PathParam("name") String repositoryName) {
         List<RepositoryGroup> repositoryGroups = repositoryGroupRepository.findByRepositoryNameWithRepositories(repositoryName);
         return (repositoryGroups == null || repositoryGroups.isEmpty()) ? noContent().build() : ok(repositoryGroups).build();
     }

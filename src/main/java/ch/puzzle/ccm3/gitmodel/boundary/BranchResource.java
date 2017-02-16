@@ -29,9 +29,9 @@ public class BranchResource {
     @GET
     @Path("/{id}")
     @JsonView(FromBranch.class)
-    @ApiOperation("Find a branch by id, include statuses")
-    public Response getRepositoryGroupById(@PathParam("id") long id) {
-        Branch branch = repository.findByIdWithChilds(id);
+    @ApiOperation("Finds a branch by id, include its statuses")
+    public Response findBranchByIdWithStatuses(@PathParam("id") long id) {
+        Branch branch = repository.findByIdWithStatuses(id);
         return branch == null ? noContent().build() : ok(branch).build();
     }
 }

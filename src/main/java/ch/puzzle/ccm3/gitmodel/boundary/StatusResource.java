@@ -44,7 +44,7 @@ public class StatusResource {
 
     @GET
     @JsonView(FromStatus.class)
-    @ApiOperation("Find Statuses by Repository or Branch. Supports pagination and ordering")
+    @ApiOperation("Finds Statuses by Repository or Branch, supports pagination and ordering")
     public Response getStatusEntries(@QueryParam("branchId") Long branchId,
                                      @QueryParam("repositoryId") Long repoositoryId,
                                      @QueryParam("start") Integer offset,
