@@ -139,3 +139,213 @@ function loadBranch(event) {
     }
     $('#resulttable').DataTable().ajax.url(url).load();
 }
+
+function initDropdowns() {
+    $('#action').selectize({
+        preload: true,
+        valueField: 'name',
+        labelField: 'name',
+        sortField: 'name',
+        searchField: 'name',
+        create: false,
+        render: {
+            option: function(item, escape) {
+                return '<option value="' + item.name + '">' + item.name + '</option>';
+            }
+        },
+        load: function(query, callback) {
+            $.ajax({
+                url: 'api/v1/logs/actions',
+                type: 'GET',
+                dataType: 'json',
+                error: function () {
+                    callback();
+                },
+                success: function (res) {
+                    callback(res);
+                }
+            });
+        },
+        onChange: function(value) {
+            $('#searchButton').click();;
+        }
+    });
+    $('#stage').selectize({
+        preload: true,
+        valueField: 'name',
+        labelField: 'name',
+        sortField: 'name',
+        searchField: 'name',
+        create: false,
+        render: {
+            option: function(item, escape) {
+                return '<option value="' + item.name + '">' + item.name + '</option>';
+            }
+        },
+        load: function(query, callback) {
+            $.ajax({
+                url: 'api/v1/logs/stages',
+                type: 'GET',
+                dataType: 'json',
+                error: function () {
+                    callback();
+                },
+                success: function (res) {
+                    callback(res);
+                }
+            });
+        },
+        onChange: function(value) {
+            $('#searchButton').click();;
+        }
+    });
+}
+
+function clearFields(event) {
+    var $select = $('#action').selectize();
+    var control = $select[0].selectize;
+    control.clear();
+    var $select = $('#stage').selectize();
+    var control = $select[0].selectize;
+    control.clear();
+
+    $('#stage').val('');
+    $('#repositoryName').val('');
+    $('#repositoryGroupName').val('');
+    $('#branch').val('');
+    $('#version').val('');
+    $('#user').val('');
+    $('#auftrag').val('');
+    $('#lowerDate').val('');
+    $('#upperDate').val('');
+    searchLogs(event);
+}
+
+function searchLogs(event){
+    var action = $("#action").val();
+    var stage = $("#stage").val();
+    var repositoryName = $("#repositoryName").val();
+    var repositoryGroupName = $("#repositoryGroupName").val();
+    var branch = $("#branch").val();
+    var version = $("#version").val();
+    var user = $("#user").val();
+    var auftrag = $("#auftrag").val();
+    var lowerDate = $("#lowerDate").val();
+    var upperDate = $("#upperDate").val();
+
+    var query = '?1=1';
+    if (action) {
+        query += "&action=" + action;
+    }
+    if (stage) {
+        query += "&stage=" + stage;
+    }
+    if (repositoryName) {
+        query += "&repositoryName=" + repositoryName;
+    }
+    if (repositoryGroupName) {
+        query += "&repositoryGroupName=" + repositoryGroupName;
+    }
+    if (branch) {
+        query += "&branch=" + branch;
+    }
+    if (version) {
+        query += "&version=" + version;
+    }
+    if (user) {
+        query += "&user=" + user;
+    }
+    if (auftrag) {
+        query += "&auftrag=" + auftrag;
+    }
+    if (lowerDate) {
+        query += "&lowerDate=" + moment(lowerDate, 'DD.MM.YYYY hh:mm').format("YYYY-MM-DDTHH:mm:ss");
+    }
+    if (upperDate) {
+        query += "&upperDate=" + moment(upperDate, 'DD.MM.YYYY hh:mm').format("YYYY-MM-DDTHH:mm:ss");
+    }
+
+    datatable.destroy();
+    datatable = $('#resulttable').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "searching": false,
+        "ajax": "api/v1/logs"+query,
+        "columns": [
+            { "data": "action" },
+            { "data": "stage" },
+            { "data": "repositoryName" },
+            { "data": "repositoryGroupName" },
+            { "data": "branch" },
+            { "data": "version" },
+            { "data": "userId" },
+            { "data": "auftragNr" },
+            { "data": "logdate" }
+        ],
+        "columnDefs": [{
+            targets: 8,
+            render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss','DD.MM.YYYY HH:mm')
+        }]
+    } );
+}
+
+function initDropdowns() {
+    $('#action').selectize({
+        preload: true,
+        valueField: 'name',
+        labelField: 'name',
+        sortField: 'name',
+        searchField: 'name',
+        create: false,
+        render: {
+            option: function(item, escape) {
+                return '<option value="' + item.name + '">' + item.name + '</option>';
+            }
+        },
+        load: function(query, callback) {
+            $.ajax({
+                url: 'api/v1/logs/actions',
+                type: 'GET',
+                dataType: 'json',
+                error: function () {
+                    callback();
+                },
+                success: function (res) {
+                    callback(res);
+                }
+            });
+        },
+        onChange: function(value) {
+            $('#searchButton').click();;
+        }
+    });
+    $('#stage').selectize({
+        preload: true,
+        valueField: 'name',
+        labelField: 'name',
+        sortField: 'name',
+        searchField: 'name',
+        create: false,
+        render: {
+            option: function(item, escape) {
+                return '<div class="option" value="' + item.name + '">' + item.name + '</option>';
+            }
+        },
+        load: function(query, callback) {
+            $.ajax({
+                url: 'api/v1/logs/stages',
+                type: 'GET',
+                dataType: 'json',
+                error: function () {
+                    callback();
+                },
+                success: function (res) {
+                    callback(res);
+                }
+            });
+        },
+        onChange: function(value) {
+            $('#searchButton').click();;
+        }
+    });
+}
