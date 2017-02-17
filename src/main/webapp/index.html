@@ -77,7 +77,7 @@
   <script type="text/javascript" src="js/vendor/handlebars.min-6300e57.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-      loadRepoGroups();
+      loadRepositoryGroups();
       $('.datepicker').datetimepicker();
       bindevent();
     });
@@ -91,13 +91,13 @@
     $('.form-control-clear').click(function() {
         $(this).siblings('input[type="text"]').val('')
             .trigger('propertychange').focus();
-        loadRepoGroups();
+        loadRepositoryGroups();
     });
 
     function bindevent(){
-      $(document).on("click","#repositoryGroups > li > a", loadRepoGroup);
-      $(document).on("keyup","#searchfield", searchByRepo);
-      $(document).on("click",".reponavigation", loadRepo);
+      $(document).on("click","#repositoryGroups > li > a", loadRepositoryGroup);
+      $(document).on("keyup","#searchfield", searchByRepository);
+      $(document).on("click",".reponavigation", loadRepository);
     }
   </script>
   <script id="repo-template" type="text/x-handlebars-template">

@@ -193,7 +193,7 @@
     });
     function bindevent(){
         $(document).on("click","#searchButton", searchLogs);
-        $(document).on("click","#clearButton", clearFields);
+        $(document).on("click","#clearButton", clearLogSearchFields);
         $('.form-control').keypress(function(event){
             if(event.keyCode == 13){
                 $('#searchButton').click();

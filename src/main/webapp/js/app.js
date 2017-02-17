@@ -1,4 +1,4 @@
-function loadRepoGroups() {
+function loadRepositoryGroups() {
     $.ajax(
         'api/v1/repository-groups',
         {
@@ -19,7 +19,7 @@ function loadRepoGroups() {
     });
 }
 
-function searchByRepo(event) {
+function searchByRepository(event) {
     var element = $(event.currentTarget);
     var searchVal = element.val();
     if (searchVal && searchVal.length >= 3) {
@@ -52,11 +52,11 @@ function searchByRepo(event) {
         });
     }
     if (element.val().length == 0) {
-        loadRepoGroups();
+        loadRepositoryGroups();
     }
 }
 
-function loadRepoGroup(event) {
+function loadRepositoryGroup(event) {
     var searchString = $('#searchfield').val();
     var element = $(event.currentTarget).parent();
     var id = element.data("element-id");
@@ -82,7 +82,7 @@ function loadRepoGroup(event) {
     element.find("ul").toggleClass("in");
 }
 
-function loadRepo(event) {
+function loadRepository(event) {
     var element = $(event.currentTarget).parent();
     var repositoryId = element.data("element-id");
     $('.reponavigation.active').removeClass('active');
@@ -140,68 +140,7 @@ function loadBranch(event) {
     $('#resulttable').DataTable().ajax.url(url).load();
 }
 
-function initDropdowns() {
-    $('#action').selectize({
-        preload: true,
-        valueField: 'name',
-        labelField: 'name',
-        sortField: 'name',
-        searchField: 'name',
-        create: false,
-        render: {
-            option: function(item, escape) {
-                return '<option value="' + item.name + '">' + item.name + '</option>';
-            }
-        },
-        load: function(query, callback) {
-            $.ajax({
-                url: 'api/v1/logs/actions',
-                type: 'GET',
-                dataType: 'json',
-                error: function () {
-                    callback();
-                },
-                success: function (res) {
-                    callback(res);
-                }
-            });
-        },
-        onChange: function(value) {
-            $('#searchButton').click();;
-        }
-    });
-    $('#stage').selectize({
-        preload: true,
-        valueField: 'name',
-        labelField: 'name',
-        sortField: 'name',
-        searchField: 'name',
-        create: false,
-        render: {
-            option: function(item, escape) {
-                return '<option value="' + item.name + '">' + item.name + '</option>';
-            }
-        },
-        load: function(query, callback) {
-            $.ajax({
-                url: 'api/v1/logs/stages',
-                type: 'GET',
-                dataType: 'json',
-                error: function () {
-                    callback();
-                },
-                success: function (res) {
-                    callback(res);
-                }
-            });
-        },
-        onChange: function(value) {
-            $('#searchButton').click();;
-        }
-    });
-}
-
-function clearFields(event) {
+function clearLogSearchFields(event) {
     var $select = $('#action').selectize();
     var control = $select[0].selectize;
     control.clear();
@@ -299,7 +238,7 @@ function initDropdowns() {
         create: false,
         render: {
             option: function(item, escape) {
-                return '<option value="' + item.name + '">' + item.name + '</option>';
+                return '<div class="option" value="' + item.name + '">' + item.name + '</div>';
             }
         },
         load: function(query, callback) {
