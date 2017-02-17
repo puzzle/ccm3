@@ -16,12 +16,11 @@ Done
 * Model fields Action and Stage as Dropdowns which can be overwritten
 * Remember filter if collapsing and expanding repository group
 * Status records are missing when filtering by repo name
+* Pack client-side libs with application, minify resources
 
 Improvements
 ============
 * Use bookmarkable URLs
-* Alert dialog if search results in menu was empty
-* Pack client-side libs with application
 * Introduce DTOs instead of serializing the entities directly to JSON
 * Make separate REST Resources for Datatables because of ugly multidimensional params
 * Show number of filtered and total Repositories in group
