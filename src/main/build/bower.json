@@ -1,0 +1,29 @@
+{
+  "name": "yo",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "selectize": "selectize.js#^0.12.4",
+    "handlebars": "^4.0.5",
+    "bootstrap3-typeahead": "^4.0.2",
+    "moment": "momentjs#^2.17.1",
+    "bootstrap-combobox": "^1.1.7",
+    "eonasdan-bootstrap-datetimepicker": "bootstrap-datetimepicker-3#^4.17.45",
+    "datatables.net-bs": "^2.1.1",
+    "jquery": "^3.1.1"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js",
+        "dist/fonts/*"
+      ]
+    }
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
