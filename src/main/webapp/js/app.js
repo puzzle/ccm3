@@ -1,54 +1,48 @@
 function loadRepositoryGroups() {
-    $.ajax(
-        'api/v1/repository-groups',
-        {
-            type: 'GET',
-            success: function (data) {
-                $("#repositoryGroups").empty();
-                if(data) {
-                    $.each(data,
-                        function (i, item) {
-                            $("#repositoryGroups").append(
-                                '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
-                        }
-                    );
-                }
+    $.ajax({
+        url: 'api/v1/repository-groups',
+        type: 'GET',
+        success: function (data) {
+            $("#repositoryGroups").empty();
+            if (data) {
+                $.each(data,
+                    function (i, item) {
+                        $("#repositoryGroups").append(
+                            '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a><ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true"></ul></li>');
+                    }
+                );
             }
-        }).error(function () {
-        //console.log("error");
-    });
+        }
+    })
 }
 
 function searchByRepository(event) {
     var element = $(event.currentTarget);
     var searchVal = element.val();
     if (searchVal && searchVal.length >= 3) {
-        $.ajax(
-            'api/v1/repository-groups/repository-name/' + searchVal,
-            {
-                type: 'GET',
-                success: function (data) {
-                    $("#repositoryGroups").empty();
-                    if(data) {
-                        $.each(data,
-                            function (i, item) {
-                                var repogroupHtml = '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a>' +
-                                    '<ul class="nav collapse in" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true">';
-                                if(item.repositories) {
-                                    $.each(item.repositories,
-                                        function (i, repository) {
-                                            repogroupHtml += '<li data-element-id="' + repository.id + '"><a class="reponavigation" href="#">' + repository.name + '</a></li>';
-                                        }
-                                    );
-                                }
-                                repogroupHtml += "</ul></li>";
-                                $("#repositoryGroups").append(repogroupHtml);
+        $.ajax({
+            url: 'api/v1/repository-groups/repository-name/' + searchVal,
+            type: 'GET',
+            success: function (data) {
+                $("#repositoryGroups").empty();
+                if (data) {
+                    $.each(data,
+                        function (i, item) {
+                            var repogroupHtml = '<li data-element-id="' + item.id + '"><a href="#">' + item.name + '<span class="caret"></span></a>' +
+                                '<ul class="nav collapse in" id="submenu1" role="menu" aria-labelledby="btn-1" aria-expanded="true">';
+                            if (item.repositories) {
+                                $.each(item.repositories,
+                                    function (i, repository) {
+                                        repogroupHtml += '<li data-element-id="' + repository.id + '"><a class="reponavigation" href="#">' + repository.name + '</a></li>';
+                                    }
+                                );
                             }
-                        );
-                    }
+                            repogroupHtml += "</ul></li>";
+                            $("#repositoryGroups").append(repogroupHtml);
+                        }
+                    );
                 }
-            }).error(function () {
-            //console.log("error");
+            }
         });
     }
     if (element.val().length == 0) {
@@ -60,23 +54,20 @@ function loadRepositoryGroup(event) {
     var searchString = $('#searchfield').val();
     var element = $(event.currentTarget).parent();
     var id = element.data("element-id");
-    if(!searchString && searchString.length < 3) {
-        $.ajax(
-            'api/v1/repository-groups/' + id,
-            {
-                type: 'GET',
-                success: function (data) {
-                    element.find("ul").empty();
-                    if (data) {
-                        $.each(data.repositories,
-                            function (i, item) {
-                                element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
-                            }
-                        );
-                    }
+    if (!searchString && searchString.length < 3) {
+        $.ajax({
+            url: 'api/v1/repository-groups/' + id,
+            type: 'GET',
+            success: function (data) {
+                element.find("ul").empty();
+                if (data) {
+                    $.each(data.repositories,
+                        function (i, item) {
+                            element.find("ul").append($('<li data-element-id="' + item.id + '"/>').html('<a class="reponavigation" href="#">' + item.name + '</a>'));
+                        }
+                    );
                 }
-            }).error(function () {
-            //console.log("error");
+            }
         });
     }
     element.find("ul").toggleClass("in");
@@ -87,53 +78,50 @@ function loadRepository(event) {
     var repositoryId = element.data("element-id");
     $('.reponavigation.active').removeClass('active');
     $(event.currentTarget).addClass("active");
-    $.ajax(
-        'api/v1/repositories/' + repositoryId,
-        {
-            type: 'GET',
-            success: function (data) {
-                var source = $("#repo-template").html();
-                var template = Handlebars.compile(source);
-                var context = {data: data};
-                var html = template(context);
-                var branchId = $("#branch").val();
-                var url = 'api/v1/statuses?repositoryId='+ repositoryId;
-                if (branchId) {
-                    url += '&branchId=' + branchId;
-                }
-
-                $("#repoDetails").html(html);
-                $("#resulttable").DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "ajax": url,
-                    "searching": false,
-                    "order": [[6, 'desc']],
-                    "columns": [
-                        {"data": "branch.name"},
-                        {"data": "stage"},
-                        {"data": "version"},
-                        {"data": "userId"},
-                        {"data": "status"},
-                        {"data": "auftragNr"},
-                        {"data": "executed"}
-                    ],
-                    "columnDefs": [{
-                        targets: 6,
-                        render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss','DD.MM.YYYY HH:mm')
-                    }]
-                });
-                $('.datepicker').datetimepicker();
+    $.ajax({
+        url: 'api/v1/repositories/' + repositoryId,
+        type: 'GET',
+        success: function (data) {
+            var source = $("#repo-template").html();
+            var template = Handlebars.compile(source);
+            var context = {data: data};
+            var html = template(context);
+            var branchId = $("#branch").val();
+            var url = 'api/v1/statuses?repositoryId=' + repositoryId;
+            if (branchId) {
+                url += '&branchId=' + branchId;
             }
-        }).error(function () {
-        //console.log("error");
+
+            $("#repoDetails").html(html);
+            $("#resulttable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": url,
+                "searching": false,
+                "order": [[6, 'desc']],
+                "columns": [
+                    {"data": "branch.name"},
+                    {"data": "stage"},
+                    {"data": "version"},
+                    {"data": "userId"},
+                    {"data": "status"},
+                    {"data": "auftragNr"},
+                    {"data": "executed"}
+                ],
+                "columnDefs": [{
+                    targets: 6,
+                    render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss', 'DD.MM.YYYY HH:mm')
+                }]
+            });
+            $('.datepicker').datetimepicker();
+        }
     });
 }
 
 function loadBranch(event) {
     var repositoryId = $("li[data-repository-id]").attr("data-repository-id");
     var branchId = $("#branch").val();
-    var url = 'api/v1/statuses?repositoryId='+ repositoryId;
+    var url = 'api/v1/statuses?repositoryId=' + repositoryId;
     if (branchId) {
         url = url + '&branchId=' + branchId;
     }
@@ -160,7 +148,7 @@ function clearLogSearchFields(event) {
     searchLogs(event);
 }
 
-function searchLogs(event){
+function searchLogs(event) {
     var action = $("#action").val();
     var stage = $("#stage").val();
     var repositoryName = $("#repositoryName").val();
@@ -204,28 +192,29 @@ function searchLogs(event){
         query += "&upperDate=" + moment(upperDate, 'DD.MM.YYYY hh:mm').format("YYYY-MM-DDTHH:mm:ss");
     }
 
-    datatable.destroy();
-    datatable = $('#resulttable').DataTable( {
+    if (datatable)
+        datatable.destroy();
+    datatable = $('#resulttable').DataTable({
         "processing": true,
         "serverSide": true,
         "searching": false,
-        "ajax": "api/v1/logs"+query,
+        "ajax": "api/v1/logs" + query,
         "columns": [
-            { "data": "action" },
-            { "data": "stage" },
-            { "data": "repositoryName" },
-            { "data": "repositoryGroupName" },
-            { "data": "branch" },
-            { "data": "version" },
-            { "data": "userId" },
-            { "data": "auftragNr" },
-            { "data": "logdate" }
+            {"data": "action"},
+            {"data": "stage"},
+            {"data": "repositoryName"},
+            {"data": "repositoryGroupName"},
+            {"data": "branch"},
+            {"data": "version"},
+            {"data": "userId"},
+            {"data": "auftragNr"},
+            {"data": "logdate"}
         ],
         "columnDefs": [{
             targets: 8,
-            render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss','DD.MM.YYYY HH:mm')
+            render: $.fn.dataTable.render.moment('YYYY-MM-DDTHH:mm:ss', 'DD.MM.YYYY HH:mm')
         }]
-    } );
+    });
 }
 
 function initDropdowns() {
@@ -237,11 +226,11 @@ function initDropdowns() {
         searchField: 'name',
         create: false,
         render: {
-            option: function(item, escape) {
+            option: function (item, escape) {
                 return '<div class="option" value="' + item.name + '">' + item.name + '</div>';
             }
         },
-        load: function(query, callback) {
+        load: function (query, callback) {
             $.ajax({
                 url: 'api/v1/logs/actions',
                 type: 'GET',
@@ -254,8 +243,9 @@ function initDropdowns() {
                 }
             });
         },
-        onChange: function(value) {
-            $('#searchButton').click();;
+        onChange: function (value) {
+            $('#searchButton').click();
+            ;
         }
     });
     $('#stage').selectize({
@@ -266,11 +256,11 @@ function initDropdowns() {
         searchField: 'name',
         create: false,
         render: {
-            option: function(item, escape) {
+            option: function (item, escape) {
                 return '<div class="option" value="' + item.name + '">' + item.name + '</option>';
             }
         },
-        load: function(query, callback) {
+        load: function (query, callback) {
             $.ajax({
                 url: 'api/v1/logs/stages',
                 type: 'GET',
@@ -283,8 +273,9 @@ function initDropdowns() {
                 }
             });
         },
-        onChange: function(value) {
-            $('#searchButton').click();;
+        onChange: function (value) {
+            $('#searchButton').click();
+            ;
         }
     });
 }

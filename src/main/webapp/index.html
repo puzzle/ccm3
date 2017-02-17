@@ -1,145 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="favicon.ico">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
 
-  <title>CCM3 - Git Repositories</title>
+    <title>CCM3 - Git Repositories</title>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.13/r-2.1.0/datatables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/css/bootstrap-datetimepicker.min.css"/>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap-combobox.css"/>
+    <!-- stylesheets created by gulp -->
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-  <link rel="stylesheet" href="css/styles.css" />
+    <!-- application specific styles -->
+    <link rel="stylesheet" href="css/styles.css"/>
 </head>
-
 <body>
-
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">CCM 3 Viewer</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#" class="active">Repositories</a></li>
-          <li><a href="log.html">Log</a></li>
-        </ul>
-      </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">CCM 3 Viewer</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" class="active">Repositories</a></li>
+                <li><a href="log.html">Log</a></li>
+            </ul>
+        </div>
     </div>
-  </nav>
+</nav>
 
-  <div class="container-fluid">
+<div class="container-fluid">
     <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar">
-        <form>
-            <div class="form-group has-feedback has-clear">
-                <input type="text" class="form-control" id="searchfield" placeholder="Repo Name...">
-                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
-            </div>
-        </form>
-        <ul class="nav nav-sidebar" id="repositoryGroups">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <form>
+                <div class="form-group has-feedback has-clear">
+                    <input type="text" class="form-control" id="searchfield" placeholder="Repo Name...">
+                    <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+                </div>
+            </form>
+            <ul class="nav nav-sidebar" id="repositoryGroups">
 
-        </ul>
-      </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="repoDetails">
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="repoDetails">
 
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 
-  <!-- Bootstrap core JavaScript -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script>
-    window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
-  </script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="js/vendor/handlebars.min-6300e57.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      loadRepositoryGroups();
-      $('.datepicker').datetimepicker();
-      bindevent();
+<!-- scripts created by gulp -->
+<script src="js/vendor.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
+
+<!-- manually added scripts -->
+<script type="text/javascript" src="js/datatables.net/plug-ins/1.10.13/dataRender/datettime.js"></script>
+<script type="text/javascript" src="js/datatables.net/1.10.13/dataTables.bootstrap.min.js"></script>
+
+<!-- application specific javascript -->
+<script type="text/javascript" src="js/app.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadRepositoryGroups();
+        $('.datepicker').datetimepicker();
+        bindevent();
     });
 
-    $('.has-clear input[type="text"]').on('input propertychange', function() {
+    $('.has-clear input[type="text"]').on('input propertychange', function () {
         var $this = $(this);
         var visible = Boolean($this.val());
         $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
     }).trigger('propertychange');
 
-    $('.form-control-clear').click(function() {
+    $('.form-control-clear').click(function () {
         $(this).siblings('input[type="text"]').val('')
             .trigger('propertychange').focus();
         loadRepositoryGroups();
     });
 
-    function bindevent(){
-      $(document).on("click","#repositoryGroups > li > a", loadRepositoryGroup);
-      $(document).on("keyup","#searchfield", searchByRepository);
-      $(document).on("click",".reponavigation", loadRepository);
+    function bindevent() {
+        $(document).on("click", "#repositoryGroups > li > a", loadRepositoryGroup);
+        $(document).on("keyup", "#searchfield", searchByRepository);
+        $(document).on("click", ".reponavigation", loadRepository);
     }
-  </script>
-  <script id="repo-template" type="text/x-handlebars-template">
+</script>
+<script id="repo-template" type="text/x-handlebars-template">
     <ul class="breadcrumb page-header">
-      <li>{{data.repositoryGroup.name}}</li>
-      <li data-repository-id="{{data.id}}">{{data.name}}</li>
+        <li>{{data.repositoryGroup.name}}</li>
+        <li data-repository-id="{{data.id}}">{{data.name}}</li>
     </ul>
     <div class="row bottom-margin">
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label for="branch">Branch</label>
-          <select class="form-control" id="branch" onchange="loadBranch(this)">
-            <option value="-1">all</option>
-            {{#each data.branches}}
-            <option value="{{this.id}}">{{this.name}}</option>
-            {{/each}}
-          </select>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label for="branch">Branch</label>
+                <select class="form-control" id="branch" onchange="loadBranch(this)">
+                    <option value="-1">all</option>
+                    {{#each data.branches}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
         </div>
-      </div>
     </div>
     <hr/>
     <div class="table-responsive">
-      <table class="table table-striped table-full-width" id="resulttable">
-        <thead>
-        <tr>
-          <th>Branch</th>
-          <th>Stage</th>
-          <th>Version</th>
-          <th>User</th>
-          <th>Status</th>
-          <th>Auftrag</th>
-          <th>Timestamp</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+        <table class="table table-striped table-full-width" id="resulttable">
+            <thead>
+            <tr>
+                <th>Branch</th>
+                <th>Stage</th>
+                <th>Version</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Auftrag</th>
+                <th>Timestamp</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-  </script>
-  <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/r-2.1.0/datatables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/dataRender/datetime.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
-  <script type="text/javascript" src="js/app.js"></script>
+</script>
